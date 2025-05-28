@@ -197,6 +197,36 @@
         <relative_to>park</relative_to>
       </pose>
     </include>
+
+    
+
+
+
+
+
+ 
+    <!-- <include>
+      <uri>
+        model://mid360
+      </uri>
+      <name>mid360_lidar</name>
+      <pose>0 1 0.001 0 0 0
+        <relative_to>park</relative_to>
+      </pose>
+    </include> -->
+
+    <!-- <include>
+      <uri>
+        model://x500_mid360
+      </uri>
+      <pose>0 1 0.001 0 0 0
+        <relative_to>park</relative_to>
+      </pose>
+    </include> -->
+
+
+ 
+
     <spherical_coordinates>
       <surface_model>EARTH_WGS84</surface_model>
       <world_frame_orientation>ENU</world_frame_orientation>

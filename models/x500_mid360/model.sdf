@@ -1,0 +1,85 @@
+<?xml version="1.0"?>
+<sdf version="1.8">
+  <model name="x500_with_livox">
+
+    <!-- 기존 x500 모델의 링크들 (예: base_link, imu_link 등) -->
+    <include>
+      <uri>model://x500</uri>
+      <pose>0 0 0 0 0 0</pose>
+      <name>x500_body</name>
+    </include>
+
+    <!-- Livox MID360 라이다 링크 -->
+    <link name="livox_link">
+      <!-- <pose relative_to="base_link">0.15 0 0.01 0 0 0</pose> -->
+      <pose relative_to="x500_body::base_link">0.125 0 0.001 0 0 0</pose>
+
+      <inertial>
+        <pose>0 0 0.07121186 0 0 0</pose>
+        <mass>0.83</mass>
+        <inertia>
+          <ixx>0.002853261803275034</ixx>
+          <ixy>0</ixy>
+          <ixz>0</ixz>
+          <iyy>0.002853261803275034</iyy>
+          <iyz>0</iyz>
+          <izz>0.0029004988906384237</izz>
+        </inertia>
+      </inertial>
+
+      <collision name="collision">
+        <pose>0 0 0.07121186 0 0 0</pose>
+        <geometry>
+          <cylinder>
+            <radius>0.08360116</radius>
+            <length>0.14242372</length>
+          </cylinder>
+        </geometry>
+      </collision>
+
+      <visual name="visual">
+        <geometry>
+          <mesh>
+            <uri>model://lidar_3d_v2/meshes/lidar_3d_v2.dae</uri>
+            <scale>0.3 0.3 0.3</scale>
+          </mesh>
+        </geometry>
+      </visual>
+
+      <sensor name="livox_lidar" type="gpu_lidar">
+        <pose>0 0 0.07121186 0 0 0</pose>
+        <update_rate>10</update_rate>
+        <topic>scan</topic>
+        <lidar>
+          <scan>
+            <horizontal>
+              <samples>400</samples>
+              <resolution>1</resolution>
+              <min_angle>0</min_angle>
+              <max_angle>6.28319</max_angle>
+            </horizontal>
+            <vertical>
+              <samples>16</samples>
+              <resolution>1</resolution>
+              <min_angle>-0.1222</min_angle>
+              <max_angle>0.9076</max_angle>
+            </vertical>
+          </scan>
+          <range>
+            <min>0.1</min>
+            <max>70.0</max>
+            <resolution>0.002</resolution>
+          </range>
+        </lidar>
+        <visualize>true</visualize>
+      </sensor>
+    </link>
+
+    <!-- base_link에 livox_link 고정 -->
+    <joint name="livox_joint" type="fixed">
+      <parent>x500_body::base_link</parent>
+      <child>livox_link</child>
+    </joint>
+
+  </model>
+</sdf>
