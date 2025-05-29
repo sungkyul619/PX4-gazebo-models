@@ -2,6 +2,8 @@
 <sdf version="1.7">
   <model name="livox_mid360">
     <link name="livox_link">
+      <!-- <plugin filename="VisualizeLidar" name="Visualize Lidar">
+      </plugin> -->
 
       <pose>0 0 0 0 0 0</pose>
 
