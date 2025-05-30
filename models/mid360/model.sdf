@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <sdf version="1.7">
   <model name="mid360">
-    <link name="livox_link">
+    <link name="mid360/livox_link">
       <!-- <plugin filename="VisualizeLidar" name="Visualize Lidar">
       </plugin> -->
 

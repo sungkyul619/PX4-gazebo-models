@@ -1,24 +1,18 @@
-<?xml version="1.0"?>
-<sdf version="1.9">
-  <model name="x500_with_livox">
 
-    <!-- 기존 x500 모델의 링크들 (예: base_link, imu_link 등) -->
-    <include>
-      <uri>model://x500</uri>
-      <pose>0 0 0 0 0 0</pose>
-      <name>x500_body</name>
+<?xml version="1.0" encoding="UTF-8"?>
+<sdf version='1.9'>
+  <model name='x500_mid360'>
+    <include merge='true'>
+      <uri>x500</uri>
     </include>
-    <include>
+    <include merge='true'>
       <uri>model://mid360</uri>
-      <pose relative_to="x500_body::base_link">0.125 0 0.001 0 0 0</pose>
-      <name>mid360</name>
+        <pose relative_to="base_link">0.125 0 0.001 0 0 0</pose>
     </include>
-
-    <!-- base_link에 livox_link 고정 -->
     <joint name="livox_joint" type="fixed">
-      <parent>x500_body::base_link</parent>
-      <child>mid360::livox_link</child>
+      <parent>base_link</parent>
+      <child>mid360/livox_link</child>
     </joint>
-
   </model>
 </sdf>
+
