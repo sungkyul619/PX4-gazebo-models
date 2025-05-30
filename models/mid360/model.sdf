@@ -2,73 +2,93 @@
 <sdf version="1.7">
   <model name="mid360">
     <link name="mid360/livox_link">
-      <!-- <plugin filename="VisualizeLidar" name="Visualize Lidar">
-      </plugin> -->
 
+      <!-- 라이다 본체 위치 (drone 또는 차량 기준 상대 좌표계) -->
       <pose>0 0 0 0 0 0</pose>
 
+      <!-- 관성 정보 -->
       <inertial>
-        <pose>0 0 0.07121186 0 0 0</pose>
-        <mass>0.83</mass>
+        <!-- 무게중심 오프셋: 대략 중심 -->
+        <pose>0 0 0.03 0 0 0</pose>
+        <!-- 무게: 265g = 0.265kg -->
+        <mass>0.265</mass>
         <inertia>
-          <ixx>0.002853261803275034</ixx>
+          <!-- 실측값 없으므로 원통 대략 계산값 사용 -->
+          <ixx>0.0005</ixx>
           <ixy>0</ixy>
           <ixz>0</ixz>
-          <iyy>0.002853261803275034</iyy>
+          <iyy>0.0005</iyy>
           <iyz>0</iyz>
-          <izz>0.0029004988906384237</izz>
+          <izz>0.0006</izz>
         </inertia>
       </inertial>
 
+      <!-- 충돌 형상: 원통 형태 -->
       <collision name="collision">
-        <pose>0 0 0.07121186 0 0 0</pose>
+        <!-- Z 높이 오프셋: 중심 위치로 설정 -->
+        <pose>0 0 0.03 0 0 0</pose>
         <geometry>
           <cylinder>
-            <radius>0.08360116</radius>
-            <length>0.14242372</length>
+            <!-- 직경 65mm → 반지름 0.0325 -->
+            <radius>0.0325</radius>
+            <!-- 높이 60mm -->
+            <length>0.06</length>
           </cylinder>
         </geometry>
       </collision>
 
+      <!-- 시각적 메쉬 (dae 파일 사용) -->
       <visual name="visual">
         <geometry>
           <mesh>
             <uri>model://lidar_3d_v2/meshes/lidar_3d_v2.dae</uri>
-            <scale>0.3 0.3 0.3</scale>
+            <!-- 스케일은 실제 모델 크기에 맞게 조정 -->
+            <scale>0.065 0.065 0.06</scale>
           </mesh>
         </geometry>
       </visual>
 
+      <!-- Livox MID-360 라이다 센서 설정 -->
       <sensor name="livox_lidar" type="gpu_lidar">
-        <pose>0 0 0.07121186 0 0 0</pose>
+        <pose>0 0 0.03 0 0 0</pose>
+        <!-- 프레임 속도: MID360 스펙 기준 10Hz -->
         <update_rate>10</update_rate>
-        <!-- <topic>scan</topic> -->
+
         <lidar>
           <scan>
             <horizontal>
+              <!-- 360도 수평 시야, 샘플 수는 성능 고려하여 설정 -->
               <samples>400</samples>
               <resolution>1</resolution>
               <min_angle>0</min_angle>
-              <max_angle>6.28319</max_angle>
+              <max_angle>6.28319</max_angle> <!-- 2π rad = 360도 -->
             </horizontal>
             <vertical>
-              <samples>16</samples>  <!-- GPU 부담 줄이기 위한 값, 07 라이다모델 sdf수정최종 참고 -->
+              <!-- 수직 샘플 수: GPU 비용 고려 (16~64 사이 추천) -->
+              <samples>16</samples>
               <resolution>1</resolution>
-              <min_angle>-0.1222</min_angle> <!-- -7 deg -->
-              <max_angle>0.9076</max_angle>  <!-- 52 deg -->
+              <!-- 수직 FOV: -7° ~ 52° → rad 변환 -->
+              <min_angle>-0.1222</min_angle>  <!-- -7 deg -->
+              <max_angle>0.9076</max_angle>   <!-- 52 deg -->
             </vertical>
           </scan>
           <range>
+            <!-- 최소 감지 거리: 0.1m -->
             <min>0.1</min>
-            <max>70.0</max>  <!-- 최대 70m (스펙 기반) -->
+            <!-- 최대 감지 거리: 70m (스펙 상 반사율 80% 기준) -->
+            <max>70.0</max>
+            <!-- 거리 해상도: 2mm 단위 해석 (스펙상 2~3cm 오차 고려) -->
             <resolution>0.002</resolution>
           </range>
           <noise>
+            <!-- Gaussian 노이즈 추가: 1cm 표준편차 -->
             <type>gaussian</type>
             <mean>0.0</mean>
-            <stddev>0.01</stddev>  <!-- 표준편차, 1cm -->
+            <stddev>0.01</stddev>
           </noise>
         </lidar>
+
+        <!-- Gazebo 내 시각화 여부 -->
         <visualize>true</visualize>
       </sensor>
     </link>
