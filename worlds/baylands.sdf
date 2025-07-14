@@ -227,12 +227,20 @@
 
  
 
-    <spherical_coordinates>
+    <!-- <spherical_coordinates>
       <surface_model>EARTH_WGS84</surface_model>
       <world_frame_orientation>ENU</world_frame_orientation>
       <latitude_deg>37.412173071650805</latitude_deg>
       <longitude_deg>-121.998878727967</longitude_deg>
       <elevation>38</elevation>
+    </spherical_coordinates> -->
+    <spherical_coordinates>
+      <surface_model>EARTH_WGS84</surface_model>
+      <world_frame_orientation>ENU</world_frame_orientation>
+      <latitude_deg>35.028907</latitude_deg>
+      <longitude_deg> 126.752989</longitude_deg>
+      <elevation>0</elevation>
+      <heading_deg>0</heading_deg>
     </spherical_coordinates>
   </world>
 </sdf>
